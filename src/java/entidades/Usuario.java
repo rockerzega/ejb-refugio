@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Usuario.findByPass", query = "SELECT u FROM Usuario u WHERE u.pass = :pass")})
 public class Usuario implements Serializable {
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Administrador administrador;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -145,6 +148,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "entidades.Usuario[ id=" + id + " ]";
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
     }
     
 }
