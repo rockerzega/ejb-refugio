@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Refugio.findByHatencion", query = "SELECT r FROM Refugio r WHERE r.hatencion = :hatencion")})
 public class Refugio implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
+    private Collection<Donaciones> donacionesCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -130,6 +133,15 @@ public class Refugio implements Serializable {
     @Override
     public String toString() {
         return "entidades.Refugio[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Donaciones> getDonacionesCollection() {
+        return donacionesCollection;
+    }
+
+    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
+        this.donacionesCollection = donacionesCollection;
     }
     
 }

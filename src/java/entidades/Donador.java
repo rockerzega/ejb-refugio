@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Donador.findByPuntos", query = "SELECT d FROM Donador d WHERE d.puntos = :puntos")})
 public class Donador implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Collection<Donaciones> donacionesCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -126,6 +129,15 @@ public class Donador implements Serializable {
     @Override
     public String toString() {
         return "entidades.Donador[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Donaciones> getDonacionesCollection() {
+        return donacionesCollection;
+    }
+
+    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
+        this.donacionesCollection = donacionesCollection;
     }
     
 }
