@@ -41,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Refugio implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
+    private Collection<Beneficios> beneficiosCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
     private Collection<Donaciones> donacionesCollection;
 
     private static final long serialVersionUID = 1L;
@@ -142,6 +145,15 @@ public class Refugio implements Serializable {
 
     public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
         this.donacionesCollection = donacionesCollection;
+    }
+
+    @XmlTransient
+    public Collection<Beneficios> getBeneficiosCollection() {
+        return beneficiosCollection;
+    }
+
+    public void setBeneficiosCollection(Collection<Beneficios> beneficiosCollection) {
+        this.beneficiosCollection = beneficiosCollection;
     }
     
 }

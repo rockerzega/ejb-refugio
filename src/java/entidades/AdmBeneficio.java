@@ -6,16 +6,20 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "AdmBeneficio.findByDescripcion", query = "SELECT a FROM AdmBeneficio a WHERE a.descripcion = :descripcion")
     , @NamedQuery(name = "AdmBeneficio.findByPuntos", query = "SELECT a FROM AdmBeneficio a WHERE a.puntos = :puntos")})
 public class AdmBeneficio implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficios")
+    private Collection<Beneficios> beneficiosCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -98,6 +105,15 @@ public class AdmBeneficio implements Serializable {
     @Override
     public String toString() {
         return "entidades.AdmBeneficio[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Beneficios> getBeneficiosCollection() {
+        return beneficiosCollection;
+    }
+
+    public void setBeneficiosCollection(Collection<Beneficios> beneficiosCollection) {
+        this.beneficiosCollection = beneficiosCollection;
     }
     
 }
