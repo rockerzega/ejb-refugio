@@ -5,19 +5,19 @@
  */
 package sesiones;
 
-import entidades.UsuarioRefugio;
+import entidades.DonadorRefugio;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Stateless
-public class UsuarioRefugioFacade extends AbstractFacade<UsuarioRefugio> implements UsuarioRefugioFacadeLocal {
+public class DonadorRefugioFacade extends AbstractFacade<DonadorRefugio> implements DonadorRefugioFacadeLocal {
 
-    @PersistenceContext(unitName = "ejb-refugioPU")
+    @PersistenceContext(unitName = "refugioPU")
     private EntityManager em;
 
     @Override
@@ -25,8 +25,8 @@ public class UsuarioRefugioFacade extends AbstractFacade<UsuarioRefugio> impleme
         return em;
     }
 
-    public UsuarioRefugioFacade() {
-        super(UsuarioRefugio.class);
+    public DonadorRefugioFacade() {
+        super(DonadorRefugio.class);
     }
     
 }

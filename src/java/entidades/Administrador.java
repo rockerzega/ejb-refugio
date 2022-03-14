@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "ADMINISTRADOR")
+@Table(name = "administrador")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Administrador.findAll", query = "SELECT a FROM Administrador a")
@@ -36,12 +36,12 @@ public class Administrador implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
+    @Size(min = 1, max = 15)
+    @Column(name = "id")
     private String id;
-    @Column(name = "ACTIVO")
-    private Short activo;
-    @JoinColumn(name = "ID", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
+    @Column(name = "activo")
+    private Boolean activo;
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
 
@@ -60,11 +60,11 @@ public class Administrador implements Serializable {
         this.id = id;
     }
 
-    public Short getActivo() {
+    public Boolean getActivo() {
         return activo;
     }
 
-    public void setActivo(Short activo) {
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
 

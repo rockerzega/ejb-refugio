@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Local
 public interface RefugioFacadeLocal {
