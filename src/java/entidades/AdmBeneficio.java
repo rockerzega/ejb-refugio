@@ -6,23 +6,28 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "ADM_BENEFICIO")
+@Table(name = "adm_beneficio")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AdmBeneficio.findAll", query = "SELECT a FROM AdmBeneficio a")
@@ -33,29 +38,30 @@ public class AdmBeneficio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
-    private String id;
-    @Size(max = 100)
-    @Column(name = "DESCRIPCION", length = 100)
+    @Column(name = "id")
+    private Integer id;
+    @Size(max = 20)
+    @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "PUNTOS")
-    private Long puntos;
+    @Column(name = "puntos")
+    private Integer puntos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficio")
+    private Collection<Beneficios> beneficiosCollection;
 
     public AdmBeneficio() {
     }
 
-    public AdmBeneficio(String id) {
+    public AdmBeneficio(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,12 +73,21 @@ public class AdmBeneficio implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Long getPuntos() {
+    public Integer getPuntos() {
         return puntos;
     }
 
-    public void setPuntos(Long puntos) {
+    public void setPuntos(Integer puntos) {
         this.puntos = puntos;
+    }
+
+    @XmlTransient
+    public Collection<Beneficios> getBeneficiosCollection() {
+        return beneficiosCollection;
+    }
+
+    public void setBeneficiosCollection(Collection<Beneficios> beneficiosCollection) {
+        this.beneficiosCollection = beneficiosCollection;
     }
 
     @Override

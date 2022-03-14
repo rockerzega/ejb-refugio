@@ -7,7 +7,6 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,8 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,39 +25,36 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "REFUGIO")
+@Table(name = "refugio")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Refugio.findAll", query = "SELECT r FROM Refugio r")
     , @NamedQuery(name = "Refugio.findById", query = "SELECT r FROM Refugio r WHERE r.id = :id")
-    , @NamedQuery(name = "Refugio.findByFechaCrea", query = "SELECT r FROM Refugio r WHERE r.fechaCrea = :fechaCrea")
-    , @NamedQuery(name = "Refugio.findByHatencion", query = "SELECT r FROM Refugio r WHERE r.hatencion = :hatencion")})
+    , @NamedQuery(name = "Refugio.findByHAtencion", query = "SELECT r FROM Refugio r WHERE r.hAtencion = :hAtencion")})
 public class Refugio implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
-    private Collection<Donaciones> donacionesCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
+    @Size(min = 1, max = 15)
+    @Column(name = "id")
     private String id;
-    @Column(name = "FECHA_CREA")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCrea;
-    @Size(max = 100)
-    @Column(name = "HATENCION", length = 100)
-    private String hatencion;
-    @JoinColumn(name = "ID", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
+    @Size(max = 50)
+    @Column(name = "h_atencion")
+    private String hAtencion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
+    private Collection<Donaciones> donacionesCollection;
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
-    private Collection<UsuarioRefugio> usuarioRefugioCollection;
+    private Collection<DonadorRefugio> donadorRefugioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
+    private Collection<Beneficios> beneficiosCollection;
 
     public Refugio() {
     }
@@ -77,20 +71,21 @@ public class Refugio implements Serializable {
         this.id = id;
     }
 
-    public Date getFechaCrea() {
-        return fechaCrea;
+    public String getHAtencion() {
+        return hAtencion;
     }
 
-    public void setFechaCrea(Date fechaCrea) {
-        this.fechaCrea = fechaCrea;
+    public void setHAtencion(String hAtencion) {
+        this.hAtencion = hAtencion;
     }
 
-    public String getHatencion() {
-        return hatencion;
+    @XmlTransient
+    public Collection<Donaciones> getDonacionesCollection() {
+        return donacionesCollection;
     }
 
-    public void setHatencion(String hatencion) {
-        this.hatencion = hatencion;
+    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
+        this.donacionesCollection = donacionesCollection;
     }
 
     public Usuario getUsuario() {
@@ -102,12 +97,21 @@ public class Refugio implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UsuarioRefugio> getUsuarioRefugioCollection() {
-        return usuarioRefugioCollection;
+    public Collection<DonadorRefugio> getDonadorRefugioCollection() {
+        return donadorRefugioCollection;
     }
 
-    public void setUsuarioRefugioCollection(Collection<UsuarioRefugio> usuarioRefugioCollection) {
-        this.usuarioRefugioCollection = usuarioRefugioCollection;
+    public void setDonadorRefugioCollection(Collection<DonadorRefugio> donadorRefugioCollection) {
+        this.donadorRefugioCollection = donadorRefugioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Beneficios> getBeneficiosCollection() {
+        return beneficiosCollection;
+    }
+
+    public void setBeneficiosCollection(Collection<Beneficios> beneficiosCollection) {
+        this.beneficiosCollection = beneficiosCollection;
     }
 
     @Override
@@ -133,15 +137,6 @@ public class Refugio implements Serializable {
     @Override
     public String toString() {
         return "entidades.Refugio[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Donaciones> getDonacionesCollection() {
-        return donacionesCollection;
-    }
-
-    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
-        this.donacionesCollection = donacionesCollection;
     }
     
 }

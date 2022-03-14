@@ -12,12 +12,12 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Stateless
 public class DonacionesFacade extends AbstractFacade<Donaciones> implements DonacionesFacadeLocal {
 
-    @PersistenceContext(unitName = "ejb-refugioPU")
+    @PersistenceContext(unitName = "refugioPU")
     private EntityManager em;
 
     @Override

@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "DONADOR")
+@Table(name = "donador")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Donador.findAll", query = "SELECT d FROM Donador d")
@@ -37,26 +37,27 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Donador.findByPuntos", query = "SELECT d FROM Donador d WHERE d.puntos = :puntos")})
 public class Donador implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<Donaciones> donacionesCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
+    @Size(min = 1, max = 15)
+    @Column(name = "id")
     private String id;
-    @Size(max = 100)
-    @Column(name = "APELLIDO", length = 100)
+    @Size(max = 50)
+    @Column(name = "apellido")
     private String apellido;
-    @Column(name = "PUNTOS")
+    @Column(name = "puntos")
     private Integer puntos;
-    @JoinColumn(name = "ID", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donador")
+    private Collection<Donaciones> donacionesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donador")
+    private Collection<DonadorRefugio> donadorRefugioCollection;
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<UsuarioRefugio> usuarioRefugioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donador")
+    private Collection<Beneficios> beneficiosCollection;
 
     public Donador() {
     }
@@ -89,6 +90,24 @@ public class Donador implements Serializable {
         this.puntos = puntos;
     }
 
+    @XmlTransient
+    public Collection<Donaciones> getDonacionesCollection() {
+        return donacionesCollection;
+    }
+
+    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
+        this.donacionesCollection = donacionesCollection;
+    }
+
+    @XmlTransient
+    public Collection<DonadorRefugio> getDonadorRefugioCollection() {
+        return donadorRefugioCollection;
+    }
+
+    public void setDonadorRefugioCollection(Collection<DonadorRefugio> donadorRefugioCollection) {
+        this.donadorRefugioCollection = donadorRefugioCollection;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -98,12 +117,12 @@ public class Donador implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UsuarioRefugio> getUsuarioRefugioCollection() {
-        return usuarioRefugioCollection;
+    public Collection<Beneficios> getBeneficiosCollection() {
+        return beneficiosCollection;
     }
 
-    public void setUsuarioRefugioCollection(Collection<UsuarioRefugio> usuarioRefugioCollection) {
-        this.usuarioRefugioCollection = usuarioRefugioCollection;
+    public void setBeneficiosCollection(Collection<Beneficios> beneficiosCollection) {
+        this.beneficiosCollection = beneficiosCollection;
     }
 
     @Override
@@ -129,15 +148,6 @@ public class Donador implements Serializable {
     @Override
     public String toString() {
         return "entidades.Donador[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Donaciones> getDonacionesCollection() {
-        return donacionesCollection;
-    }
-
-    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
-        this.donacionesCollection = donacionesCollection;
     }
     
 }

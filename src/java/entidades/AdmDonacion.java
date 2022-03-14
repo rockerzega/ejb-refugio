@@ -11,22 +11,23 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "ADM_DONACION")
+@Table(name = "adm_donacion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AdmDonacion.findAll", query = "SELECT a FROM AdmDonacion a")
@@ -35,34 +36,32 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "AdmDonacion.findByPuntos", query = "SELECT a FROM AdmDonacion a WHERE a.puntos = :puntos")})
 public class AdmDonacion implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donacion")
-    private Collection<Donaciones> donacionesCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
-    private String id;
-    @Size(max = 100)
-    @Column(name = "DESCRIPCION", length = 100)
+    @Column(name = "id")
+    private Integer id;
+    @Size(max = 20)
+    @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "PUNTOS")
+    @Column(name = "puntos")
     private Integer puntos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donacion")
+    private Collection<Donaciones> donacionesCollection;
 
     public AdmDonacion() {
     }
 
-    public AdmDonacion(String id) {
+    public AdmDonacion(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,6 +79,15 @@ public class AdmDonacion implements Serializable {
 
     public void setPuntos(Integer puntos) {
         this.puntos = puntos;
+    }
+
+    @XmlTransient
+    public Collection<Donaciones> getDonacionesCollection() {
+        return donacionesCollection;
+    }
+
+    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
+        this.donacionesCollection = donacionesCollection;
     }
 
     @Override
@@ -105,15 +113,6 @@ public class AdmDonacion implements Serializable {
     @Override
     public String toString() {
         return "entidades.AdmDonacion[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Donaciones> getDonacionesCollection() {
-        return donacionesCollection;
-    }
-
-    public void setDonacionesCollection(Collection<Donaciones> donacionesCollection) {
-        this.donacionesCollection = donacionesCollection;
     }
     
 }

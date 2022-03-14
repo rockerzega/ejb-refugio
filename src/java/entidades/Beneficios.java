@@ -27,13 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Marcelo
  */
 @Entity
-@Table(name = "donaciones")
+@Table(name = "beneficios")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Donaciones.findAll", query = "SELECT d FROM Donaciones d")
-    , @NamedQuery(name = "Donaciones.findById", query = "SELECT d FROM Donaciones d WHERE d.id = :id")
-    , @NamedQuery(name = "Donaciones.findByFecRea", query = "SELECT d FROM Donaciones d WHERE d.fecRea = :fecRea")})
-public class Donaciones implements Serializable {
+    @NamedQuery(name = "Beneficios.findAll", query = "SELECT b FROM Beneficios b")
+    , @NamedQuery(name = "Beneficios.findById", query = "SELECT b FROM Beneficios b WHERE b.id = :id")
+    , @NamedQuery(name = "Beneficios.findByFecEmi", query = "SELECT b FROM Beneficios b WHERE b.fecEmi = :fecEmi")
+    , @NamedQuery(name = "Beneficios.findByFecRea", query = "SELECT b FROM Beneficios b WHERE b.fecRea = :fecRea")})
+public class Beneficios implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,12 +42,15 @@ public class Donaciones implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "fec_emi")
+    @Temporal(TemporalType.DATE)
+    private Date fecEmi;
     @Column(name = "fec_rea")
     @Temporal(TemporalType.DATE)
     private Date fecRea;
-    @JoinColumn(name = "donacion", referencedColumnName = "id")
+    @JoinColumn(name = "beneficio", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private AdmDonacion donacion;
+    private AdmBeneficio beneficio;
     @JoinColumn(name = "donador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Donador donador;
@@ -54,10 +58,10 @@ public class Donaciones implements Serializable {
     @ManyToOne(optional = false)
     private Refugio refugio;
 
-    public Donaciones() {
+    public Beneficios() {
     }
 
-    public Donaciones(Integer id) {
+    public Beneficios(Integer id) {
         this.id = id;
     }
 
@@ -69,6 +73,14 @@ public class Donaciones implements Serializable {
         this.id = id;
     }
 
+    public Date getFecEmi() {
+        return fecEmi;
+    }
+
+    public void setFecEmi(Date fecEmi) {
+        this.fecEmi = fecEmi;
+    }
+
     public Date getFecRea() {
         return fecRea;
     }
@@ -77,12 +89,12 @@ public class Donaciones implements Serializable {
         this.fecRea = fecRea;
     }
 
-    public AdmDonacion getDonacion() {
-        return donacion;
+    public AdmBeneficio getBeneficio() {
+        return beneficio;
     }
 
-    public void setDonacion(AdmDonacion donacion) {
-        this.donacion = donacion;
+    public void setBeneficio(AdmBeneficio beneficio) {
+        this.beneficio = beneficio;
     }
 
     public Donador getDonador() {
@@ -111,10 +123,10 @@ public class Donaciones implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Donaciones)) {
+        if (!(object instanceof Beneficios)) {
             return false;
         }
-        Donaciones other = (Donaciones) object;
+        Beneficios other = (Beneficios) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -123,7 +135,7 @@ public class Donaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Donaciones[ id=" + id + " ]";
+        return "entidades.Beneficios[ id=" + id + " ]";
     }
     
 }

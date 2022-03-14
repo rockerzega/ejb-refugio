@@ -5,7 +5,7 @@
  */
 package sesiones;
 
-import entidades.Donador;
+import entidades.Beneficios;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author Marcelo
  */
 @Local
-public interface DonadorFacadeLocal {
+public interface BeneficiosFacadeLocal {
 
-    void create(Donador donador);
+    void create(Beneficios beneficios);
 
-    void edit(Donador donador);
+    void edit(Beneficios beneficios);
 
-    void remove(Donador donador);
+    void remove(Beneficios beneficios);
 
-    Donador find(Object id);
+    Beneficios find(Object id);
 
-    List<Donador> findAll();
+    List<Beneficios> findAll();
 
-    List<Donador> findRange(int[] range);
+    List<Beneficios> findRange(int[] range);
 
     int count();
     

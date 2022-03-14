@@ -6,6 +6,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,48 +16,53 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author rockerzega
+ * @author Marcelo
  */
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByDireccion", query = "SELECT u FROM Usuario u WHERE u.direccion = :direccion")
+    , @NamedQuery(name = "Usuario.findByFechaCreacion", query = "SELECT u FROM Usuario u WHERE u.fechaCreacion = :fechaCreacion")
     , @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario")
     , @NamedQuery(name = "Usuario.findByPass", query = "SELECT u FROM Usuario u WHERE u.pass = :pass")})
 public class Usuario implements Serializable {
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Administrador administrador;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ID", nullable = false, length = 100)
+    @Size(min = 1, max = 15)
+    @Column(name = "id")
     private String id;
-    @Size(max = 100)
-    @Column(name = "NOMBRE", length = 100)
+    @Size(max = 50)
+    @Column(name = "nombre")
     private String nombre;
     @Size(max = 100)
-    @Column(name = "DIRECCION", length = 100)
+    @Column(name = "direccion")
     private String direccion;
-    @Size(max = 100)
-    @Column(name = "USUARIO", length = 100)
+    @Column(name = "fecha_creacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
+    @Size(max = 20)
+    @Column(name = "usuario")
     private String usuario;
-    @Size(max = 50)
-    @Column(name = "PASS", length = 50)
+    @Size(max = 20)
+    @Column(name = "pass")
     private String pass;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Administrador administrador;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Refugio refugio;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
@@ -93,6 +99,14 @@ public class Usuario implements Serializable {
         this.direccion = direccion;
     }
 
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
     public String getUsuario() {
         return usuario;
     }
@@ -107,6 +121,14 @@ public class Usuario implements Serializable {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
     }
 
     public Refugio getRefugio() {
@@ -148,14 +170,6 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "entidades.Usuario[ id=" + id + " ]";
-    }
-
-    public Administrador getAdministrador() {
-        return administrador;
-    }
-
-    public void setAdministrador(Administrador administrador) {
-        this.administrador = administrador;
     }
     
 }

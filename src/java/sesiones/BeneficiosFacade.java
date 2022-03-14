@@ -5,7 +5,7 @@
  */
 package sesiones;
 
-import entidades.Administrador;
+import entidades.Beneficios;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Marcelo
  */
 @Stateless
-public class AdministradorFacade extends AbstractFacade<Administrador> implements AdministradorFacadeLocal {
+public class BeneficiosFacade extends AbstractFacade<Beneficios> implements BeneficiosFacadeLocal {
 
     @PersistenceContext(unitName = "refugioPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class AdministradorFacade extends AbstractFacade<Administrador> implement
         return em;
     }
 
-    public AdministradorFacade() {
-        super(Administrador.class);
+    public BeneficiosFacade() {
+        super(Beneficios.class);
     }
     
 }
